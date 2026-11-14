@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CopyVault — Local-First, Zero-Telemetry Clipboard Manager</title>
+  <link rel="icon" type="image/x-icon" href="logos/CV_logo.ico" />
+  <link rel="icon" type="image/png" href="logos/CV_logo.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <header class="navbar">
+    <div class="container nav-content">
+      <a href="#" class="brand">
+        <img src="logos/CV_logo.png" alt="CopyVault Logo" class="brand-logo" />
+        <span class="brand-text">CopyVault</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#about">About</a>
+        <a href="https://github.com/tsandeep/copyvault" target="_blank" rel="noopener noreferrer"
+          class="btn btn-github">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+          </svg>
+          <span>GitHub</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span>Version 0.1.0 • 100% Free & Open Source</span>
+      </div>
+      <h1 class="hero-title">
+        The Local-First Clipboard Manager <br>
+        <span class="text-gradient">Engineered for Speed & Privacy</span>
+      </h1>
+      <p class="hero-subtitle">
+        CopyVault maintains an instant, searchable history of your text clippings, code snippets, formatted links, and
+        images with sub-15ms search and zero cloud tracking. Your clipboard stays strictly on your machine.
+      </p>
+      <div class="hero-actions">
+        <a href="https://github.com/tsandeep/copyvault/releases" class="btn btn-primary" target="_blank"
+          rel="noopener noreferrer">
+          <span>Download CopyVault</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+        </a>
+        <a href="https://github.com/tsandeep/copyvault" class="btn btn-secondary" target="_blank"
+          rel="noopener noreferrer">
+          <span>View Source Code</span>
+        </a>
+      </div>
+
+      <!-- App Preview Graphic -->
+      <div class="hero-preview-container">
+        <div class="hero-preview-window">
+          <div class="window-header">
+            <div class="window-dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <div class="window-title">CopyVault — Local Vault</div>
+            <div class="window-actions">
+              <span class="active-badge">🟢 Active</span>
+            </div>
+          </div>
+          <div class="window-body">
+            <div class="preview-sidebar">
+              <div class="sidebar-item active">📋 All History <span class="count">24</span></div>
+              <div class="sidebar-item">📌 Pinned <span class="count">3</span></div>
+              <div class="sidebar-item">📑 Snippets</div>
+              <div class="sidebar-item">🔁 Paste Sequences</div>
+              <div class="sidebar-footer">
+                <div class="footer-btn">⚙️ Settings</div>
+                <div class="footer-btn">💡 About</div>
+                <div class="pill">🔒 Local Storage Only</div>
+              </div>
+            </div>
+            <div class="preview-main">
+              <div class="search-mock">
+                <span>🔍 Search history, code, or links... (Press / or ⌘K)</span>
+              </div>
+              <div class="cards-mock">
+                <div class="mock-card">
+                  <div class="card-meta">
+                    <span class="tag tag-code">💻 Code</span>
+                    <span class="source">VSCode • 2m ago</span>
+                  </div>
+                  <div class="card-content"><code>const { invoke } = window.__TAURI__.core;</code></div>
+                </div>
+                <div class="mock-card">
+                  <div class="card-meta">
+                    <span class="tag tag-link">🔗 Link</span>
+                    <span class="source">Safari • 5m ago</span>
+                  </div>
+                  <div class="card-content">https://github.com/tsandeep/copyvault</div>
+                </div>
+                <div class="mock-card">
+                  <div class="card-meta">
+                    <span class="tag tag-text">📝 Text</span>
+                    <span class="source">Slack • 12m ago</span>
+                  </div>
+                  <div class="card-content">Hi, welcome to CopyVault local-first clipboard manager.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Grid -->
+  <section id="features" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Engineered Without Compromise</h2>
+        <p class="section-subtitle">Every feature in CopyVault is crafted for native speed, zero telemetry, and
+          effortless desktop productivity.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Sub-15ms FTS5 Search</h3>
+          <p>Powered by embedded SQLite with full-text search (FTS5) and BM25 relevance ranking. Find any clipping
+            across tens of thousands of items instantaneously.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3>Zero-Telemetry Privacy</h3>
+          <p>Your clipboard never touches external servers. Automatically honors secret concealment flags from
+            1Password, Bitwarden, KeePassXC, and Keychain.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🖱️</div>
+          <h3>Drag-and-Drop Pasting</h3>
+          <p>Drag clippings directly from CopyVault cards straight into browser form fields, code editors, or desktop
+            input fields.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔁</div>
+          <h3>Sequential Paste Queues</h3>
+          <p>Select multiple clips in custom order (1, 2, 3...) and paste them sequentially or copy them joined by
+            custom separators.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📑</div>
+          <h3>Reusable Snippets</h3>
+          <p>Store permanent templates with trigger prefixes (e.g., <code>!email</code>) and automatic placeholder
+            expansion for dates, times, and clipboard text.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🖼️</div>
+          <h3>Rich Media & Images</h3>
+          <p>Capture images, screenshots, and web graphics with automatic local disk caching, fast thumbnails, and
+            high-resolution lightbox previews.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Privacy Section -->
+  <section id="privacy" class="section section-dark">
+    <div class="container">
+      <div class="section-header">
+        <div class="pill-inline">🔒 Privacy & Security</div>
+        <h2 class="section-title">Your Data Stays on Your Machine</h2>
+        <p class="section-subtitle">We believe your clipboard is private. CopyVault was built from day one with a
+          zero-network architecture.</p>
+      </div>
+
+      <div class="privacy-cards">
+        <div class="privacy-card">
+          <div class="privacy-check">✓</div>
+          <div>
+            <h4>100% Offline by Design</h4>
+            <p>CopyVault includes zero analytics, zero trackers, and no background network connections. No Google
+              Analytics, no telemetry, ever.</p>
+          </div>
+        </div>
+
+        <div class="privacy-card">
+          <div class="privacy-check">✓</div>
+          <div>
+            <h4>One-Click Complete Data Purge</h4>
+            <p>You have full ownership of your data. Clear your history or delete individual records at any time
+              directly inside the app.</p>
+          </div>
+        </div>
+
+        <div class="privacy-card">
+          <div class="privacy-check">✓</div>
+          <div>
+            <h4>Local SQLite Storage</h4>
+            <p>All items and cached thumbnails reside strictly in standard user-scoped desktop application folders.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="about-box">
+        <div class="about-header">
+          <img src="logos/CV_logo.png" alt="CopyVault Logo" class="about-logo" />
+          <div>
+            <h3 class="about-title">Hi, I'm Sandeep</h3>
+            <p class="about-sub">Independent Software Developer</p>
+          </div>
+        </div>
+        <p class="about-text">
+          I built CopyVault because existing clipboard managers were either bloated electron apps consuming hundreds of
+          megabytes of RAM or closed-source utilities that risk syncing confidential clippings to cloud servers.
+        </p>
+        <p class="about-text">
+          CopyVault is built natively with <strong>Tauri 2, Rust, and React 19</strong> to provide a sub-10MB native
+          footprint, blazing speed, and 100% open-source transparency.
+        </p>
+        <div class="about-actions">
+          <a href="https://github.com/tsandeep/copyvault" target="_blank" rel="noopener noreferrer"
+            class="btn btn-primary">
+            <span>Explore on GitHub</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <img src="logos/CV_logo.png" alt="CopyVault" class="footer-logo" />
+        <span>CopyVault • Created by Sandeep</span>
+      </div>
+      <div class="footer-right">
+        <span>Open Source (MIT)</span>
+        <a href="https://github.com/tsandeep/copyvault" target="_blank" rel="noopener noreferrer">Source Code</a>
+        <a href="https://github.com/tsandeep/copyvault/releases" target="_blank" rel="noopener noreferrer">Releases</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

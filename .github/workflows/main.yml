@@ -1,0 +1,71 @@
+name: Release Build & Multi-Platform Executables
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-binaries:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: 'macos-latest'
+            args: '--bundles app,dmg'
+            name: 'macOS (Apple Silicon & Intel)'
+          - platform: 'ubuntu-22.04'
+            args: '--bundles deb,appimage'
+            name: 'Linux (Debian & AppImage)'
+          - platform: 'windows-latest'
+            args: '--bundles msi,nsis'
+            name: 'Windows (MSI & NSIS Setup)'
+
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: Install Linux build dependencies
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential curl wget file libssl-dev libayatana-appindicator3-dev librsvg2-dev
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build frontend & verify
+        run: |
+          npx tsc --noEmit
+          npm run build
+
+      - name: Build Tauri native bundles
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: 'CopyVault ${{ github.ref_name }}'
+          releaseBody: 'Official release build for Windows, macOS, and Linux.'
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}
+

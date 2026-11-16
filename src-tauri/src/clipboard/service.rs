@@ -3,10 +3,10 @@ use std::sync::{Arc, Mutex, RwLock};
 use std::thread;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
+use crate::clipboard::backend::{ClipboardBackend, ClipboardPayloadData};
 use crate::clipboard::deduplicator::ClipboardEchoTracker;
 use crate::clipboard::detector::{is_application_excluded, is_url, matches_confidential_heuristic};
 use crate::clipboard::error::ClipboardError;
-use crate::clipboard::macos::{ClipboardBackend, ClipboardPayloadData};
 use crate::db::models::{ClipboardItem, FormatType, NewClipboardItem, NewImageParams};
 use crate::db::service::DatabaseService;
 use crate::media::MediaManager;

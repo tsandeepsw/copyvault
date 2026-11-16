@@ -6,43 +6,12 @@ use objc2_app_kit::{
 };
 use objc2_foundation::{NSData, NSDictionary, NSString};
 
+use crate::clipboard::backend::{
+    ClipboardBackend, ClipboardPayloadData, RawClipboardPayload,
+    MAX_CLIPBOARD_IMAGE_BYTES, MAX_CLIPBOARD_TEXT_BYTES,
+};
 use crate::clipboard::detector::is_concealed_type;
 use crate::clipboard::error::ClipboardError;
-
-pub const MAX_CLIPBOARD_TEXT_BYTES: usize = 10 * 1024 * 1024; // 10 MB limit per SECURITY.md
-pub const MAX_CLIPBOARD_IMAGE_BYTES: usize = 50 * 1024 * 1024; // 50 MB limit per SECURITY.md
-
-#[derive(Debug, Clone)]
-pub enum ClipboardPayloadData {
-    Text {
-        text: String,
-        html: Option<String>,
-        rtf: Option<Vec<u8>>,
-    },
-    Image {
-        bytes: Vec<u8>,
-        mime_type: String,
-        width: Option<u32>,
-        height: Option<u32>,
-    },
-    FileUri(String),
-}
-
-#[derive(Debug, Clone)]
-pub struct RawClipboardPayload {
-    pub change_count: i64,
-    pub data: ClipboardPayloadData,
-    pub source_app_name: Option<String>,
-    pub source_app_bundle: Option<String>,
-}
-
-pub trait ClipboardBackend: Send + Sync {
-    fn get_change_count(&self) -> Result<i64, ClipboardError>;
-    fn is_concealed(&self) -> Result<bool, ClipboardError>;
-    fn read_current_payload(&self) -> Result<Option<RawClipboardPayload>, ClipboardError>;
-    fn write_text(&self, text: &str) -> Result<i64, ClipboardError>;
-    fn write_image(&self, bytes: &[u8], mime_type: &str) -> Result<i64, ClipboardError>;
-}
 
 /// Native macOS clipboard backend using Cocoa NSPasteboard.
 pub struct MacOsClipboardBackend {

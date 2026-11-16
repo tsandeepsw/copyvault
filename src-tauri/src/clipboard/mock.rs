@@ -1,6 +1,6 @@
 use std::sync::Mutex;
+use crate::clipboard::backend::{ClipboardBackend, ClipboardPayloadData, RawClipboardPayload};
 use crate::clipboard::error::ClipboardError;
-use crate::clipboard::macos::{ClipboardBackend, ClipboardPayloadData, RawClipboardPayload};
 
 /// In-memory mock clipboard backend for deterministic unit and integration tests.
 pub struct MockClipboardBackend {

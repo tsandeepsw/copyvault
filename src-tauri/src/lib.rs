@@ -44,7 +44,7 @@ pub fn run() {
 
     #[cfg(not(target_os = "macos"))]
     let backend: Arc<dyn crate::clipboard::ClipboardBackend> =
-        Arc::new(crate::clipboard::MockClipboardBackend::new());
+        Arc::new(crate::clipboard::ArboardClipboardBackend::new());
 
     let clipboard_service = Arc::new(ClipboardService::new(
         backend,
@@ -171,7 +171,8 @@ pub fn run() {
             list_paste_sequences,
             delete_paste_sequence,
             export_vault_data,
-            import_vault_data
+            import_vault_data,
+            crate::ipc::url_handler::open_external_url
         ])
         .run(tauri::generate_context!())
         .expect("error while running CopyVault application");

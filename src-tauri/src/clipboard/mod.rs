@@ -1,3 +1,4 @@
+pub mod arboard_backend;
 pub mod backend;
 pub mod deduplicator;
 pub mod detector;
@@ -7,6 +8,7 @@ pub mod macos;
 pub mod mock;
 pub mod service;
 
+pub use arboard_backend::ArboardClipboardBackend;
 pub use backend::{
     ClipboardBackend, ClipboardPayloadData, RawClipboardPayload, MAX_CLIPBOARD_IMAGE_BYTES,
     MAX_CLIPBOARD_TEXT_BYTES,

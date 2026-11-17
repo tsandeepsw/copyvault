@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { DesktopSettings, PrivacyDiagnostics, PrivacySettings } from "../types/clipboard.ts";
-import { exportVaultData, importVaultData } from "../api/vault";
+import { exportVaultData, importVaultData, openExternalUrl } from "../api/vault";
 import { safeConfirm } from "../utils/confirm.ts";
 
 interface SettingsModalProps {
@@ -307,7 +307,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           {/* Privacy Section */}
           <section className="cv-settings-section">
             <h3 className="cv-settings-section-title">Privacy & Secret Concealment</h3>
-            
+
             {/* Pause/Resume Monitoring Toggle */}
             {privacySettings && onUpdatePrivacySettings && (
               <div className="cv-settings-row">
@@ -535,7 +535,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           {/* Storage Cleanup & Diagnostics Section */}
           <section className="cv-settings-section">
             <h3 className="cv-settings-section-title">Local Storage & Privacy Diagnostics</h3>
-            
+
             <div style={{ fontSize: "12px", color: "var(--cv-text-secondary)", lineHeight: "1.5", marginBottom: "8px" }}>
               <p>
                 <strong>Where is your data stored?</strong> All clipboard history is stored exclusively on this device:
@@ -757,15 +757,14 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   CopyVault is a 100% free, local-first, zero-telemetry open-source clipboard manager. The source code is available on GitHub.
                 </p>
                 <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-                  <a
-                    href="https://github.com/tsandeep/copyvault"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    type="button"
+                    onClick={() => openExternalUrl("https://github.com/tsandeepsw/copyvault")}
                     className="cv-btn cv-btn-secondary"
-                    style={{ fontSize: "12px", padding: "4px 10px", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}
+                    style={{ fontSize: "12px", padding: "4px 10px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "6px" }}
                   >
                     <span>⭐ View on GitHub</span>
-                  </a>
+                  </button>
                   <span style={{ fontSize: "11px", color: "var(--cv-text-muted, #64748b)" }}>Version 0.1.0</span>
                 </div>
               </div>

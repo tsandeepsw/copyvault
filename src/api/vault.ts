@@ -1083,6 +1083,20 @@ export async function importVaultData(
   });
 }
 
+/** Opens an external URL safely in the user's default desktop web browser */
+export async function openExternalUrl(url: string): Promise<void> {
+  if (isTauriEnvironment()) {
+    try {
+      await invoke("open_external_url", { url });
+      return;
+    } catch (err) {
+      console.warn("Failed to open via Tauri IPC open_external_url, falling back to window.open:", err);
+    }
+  }
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+
+
 
 
 

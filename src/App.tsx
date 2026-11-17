@@ -988,8 +988,33 @@ export function App() {
     async (separator = "\n") => {
       if (orderedSelectedItems.length === 0) return;
 
+      // Special case: Single selected image should be copied as an image bitmap
+      if (orderedSelectedItems.length === 1 && orderedSelectedItems[0].contentType === "image") {
+        const singleImage = orderedSelectedItems[0];
+        try {
+          await copyImageToClipboard(singleImage.id, singleImage.thumbnailUrl);
+          setSelectedQueueIds([]);
+          setSelectedItemsCache(new Map());
+          setStatusMessage("✓ Copied image to clipboard! Ready to paste.");
+          setTimeout(() => setStatusMessage(null), 3500);
+          return;
+        } catch (err) {
+          console.error("Failed to copy image to clipboard in queue:", err);
+          setStatusMessage("Failed to copy image to clipboard");
+          setTimeout(() => setStatusMessage(null), 3000);
+          return;
+        }
+      }
+
+      // If multiple items contain images alongside text, or multiple images
+      // For images among text, if there's only 1 item total or user wants to copy
       const orderedText = orderedSelectedItems
-        .map((item) => item.content)
+        .map((item) => {
+          if (item.contentType === "image") {
+            return `[Image: ${item.content || "Image"}]`;
+          }
+          return item.content;
+        })
         .filter((text) => Boolean(text && text.trim()))
         .join(separator);
 

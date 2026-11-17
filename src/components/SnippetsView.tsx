@@ -291,109 +291,130 @@ export const SnippetsView: React.FC<SnippetsViewProps> = ({ onCopyContent }) => 
       {isCreating && (
         <div className="cv-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
           <div className="cv-modal-card cv-snippet-modal">
-            <h3 id="modal-title">{editingSnippet ? "Edit Permanent Snippet" : "Create Permanent Snippet"}</h3>
-
-            {formError && <div className="cv-error-banner">{formError}</div>}
-
-            <form onSubmit={handleSave} className="cv-form">
-              <div className="cv-form-group">
-                <label htmlFor="snip-title">Title *</label>
-                <input
-                  id="snip-title"
-                  type="text"
-                  className="cv-input"
-                  placeholder="e.g., Client Introduction Email"
-                  value={formTitle}
-                  onChange={(e) => setFormTitle(e.target.value)}
-                  required
-                />
+            <div className="cv-modal-header">
+              <div className="cv-modal-title-group">
+                <span aria-hidden="true">📌</span>
+                <h3 id="modal-title" className="cv-modal-title">
+                  {editingSnippet ? "Edit Permanent Snippet" : "Create Permanent Snippet"}
+                </h3>
               </div>
+              <button
+                type="button"
+                className="cv-btn-icon cv-modal-close-btn"
+                onClick={() => setIsCreating(false)}
+                aria-label="Close dialog"
+              >
+                ✕
+              </button>
+            </div>
 
-              <div className="cv-form-row">
-                <div className="cv-form-group cv-form-col">
-                  <label htmlFor="snip-prefix">Trigger Prefix (optional)</label>
+            <div className="cv-modal-body">
+              {formError && <div className="cv-error-banner">{formError}</div>}
+
+              <form id="snippet-form" onSubmit={handleSave} className="cv-form">
+                <div className="cv-form-group">
+                  <label htmlFor="snip-title">Title *</label>
                   <input
-                    id="snip-prefix"
+                    id="snip-title"
                     type="text"
                     className="cv-input"
-                    placeholder="e.g., !intro"
-                    value={formPrefix}
-                    onChange={(e) => setFormPrefix(e.target.value)}
+                    placeholder="e.g., Client Introduction Email"
+                    value={formTitle}
+                    onChange={(e) => setFormTitle(e.target.value)}
+                    required
                   />
-                  <small className="cv-form-help">Shortcut to quickly locate this template.</small>
                 </div>
 
-                <div className="cv-form-group cv-form-col">
-                  <label htmlFor="snip-syntax">Syntax</label>
-                  <select
-                    id="snip-syntax"
-                    className="cv-select"
-                    value={formSyntax}
-                    onChange={(e) => setFormSyntax(e.target.value)}
-                  >
-                    <option value="text">Plain Text</option>
-                    <option value="markdown">Markdown</option>
-                    <option value="sql">SQL</option>
-                    <option value="json">JSON</option>
-                    <option value="typescript">TypeScript</option>
-                    <option value="python">Python</option>
-                    <option value="shell">Shell / Bash</option>
-                  </select>
+                <div className="cv-form-row">
+                  <div className="cv-form-group cv-form-col">
+                    <label htmlFor="snip-prefix">Trigger Prefix (optional)</label>
+                    <input
+                      id="snip-prefix"
+                      type="text"
+                      className="cv-input"
+                      placeholder="e.g., !intro"
+                      value={formPrefix}
+                      onChange={(e) => setFormPrefix(e.target.value)}
+                    />
+                    <small className="cv-form-help">Shortcut to quickly locate this template.</small>
+                  </div>
+
+                  <div className="cv-form-group cv-form-col">
+                    <label htmlFor="snip-syntax">Syntax</label>
+                    <select
+                      id="snip-syntax"
+                      className="cv-select"
+                      value={formSyntax}
+                      onChange={(e) => setFormSyntax(e.target.value)}
+                    >
+                      <option value="text">Plain Text</option>
+                      <option value="markdown">Markdown</option>
+                      <option value="sql">SQL</option>
+                      <option value="json">JSON</option>
+                      <option value="typescript">TypeScript</option>
+                      <option value="python">Python</option>
+                      <option value="shell">Shell / Bash</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
 
-              <div className="cv-form-group">
-                <label htmlFor="snip-desc">Description (optional)</label>
-                <input
-                  id="snip-desc"
-                  type="text"
-                  className="cv-input"
-                  placeholder="e.g., Used for initial reach-outs to new customers"
-                  value={formDescription}
-                  onChange={(e) => setFormDescription(e.target.value)}
-                />
-              </div>
-
-              <div className="cv-form-group">
-                <label htmlFor="snip-content">Content *</label>
-                <textarea
-                  id="snip-content"
-                  className="cv-textarea cv-code-font"
-                  rows={8}
-                  placeholder="Enter template text. Use {{variable}} for dynamic placeholders..."
-                  value={formContent}
-                  onChange={(e) => setFormContent(e.target.value)}
-                  required
-                />
-                <small className="cv-form-help">
-                  Built-in placeholders: <code>{"{{date}}"}</code>, <code>{"{{time}}"}</code>, <code>{"{{clipboard}}"}</code>.
-                </small>
-              </div>
-
-              <div className="cv-form-checkbox-row">
-                <label className="cv-checkbox-label">
+                <div className="cv-form-group">
+                  <label htmlFor="snip-desc">Description (optional)</label>
                   <input
-                    type="checkbox"
-                    checked={formIsPinned}
-                    onChange={(e) => setFormIsPinned(e.target.checked)}
+                    id="snip-desc"
+                    type="text"
+                    className="cv-input"
+                    placeholder="e.g., Used for initial reach-outs to new customers"
+                    value={formDescription}
+                    onChange={(e) => setFormDescription(e.target.value)}
                   />
-                  <span>Pin to top of snippets list</span>
-                </label>
-              </div>
+                </div>
 
-              <div className="cv-modal-btn-row">
-                <button type="submit" className="cv-btn cv-btn-primary">
-                  {editingSnippet ? "💾 Save Changes" : "✨ Create Snippet"}
-                </button>
-                <button
-                  type="button"
-                  className="cv-btn cv-btn-secondary"
-                  onClick={() => setIsCreating(false)}
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
+                <div className="cv-form-group">
+                  <label htmlFor="snip-content">Content *</label>
+                  <textarea
+                    id="snip-content"
+                    className="cv-textarea cv-code-font"
+                    rows={7}
+                    placeholder="Enter template text. Use {{variable}} for dynamic placeholders..."
+                    value={formContent}
+                    onChange={(e) => setFormContent(e.target.value)}
+                    required
+                  />
+                  <small className="cv-form-help">
+                    Built-in placeholders: <code>{"{{date}}"}</code>, <code>{"{{time}}"}</code>, <code>{"{{clipboard}}"}</code>.
+                  </small>
+                </div>
+
+                <div className="cv-form-checkbox-row">
+                  <label className="cv-checkbox-label">
+                    <input
+                      type="checkbox"
+                      checked={formIsPinned}
+                      onChange={(e) => setFormIsPinned(e.target.checked)}
+                    />
+                    <span>Pin to top of snippets list</span>
+                  </label>
+                </div>
+              </form>
+            </div>
+
+            <div className="cv-modal-footer">
+              <button
+                type="button"
+                className="cv-btn cv-btn-secondary"
+                onClick={() => setIsCreating(false)}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                form="snippet-form"
+                className="cv-btn cv-btn-primary"
+              >
+                {editingSnippet ? "💾 Save Changes" : "✨ Create Snippet"}
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -402,55 +423,73 @@ export const SnippetsView: React.FC<SnippetsViewProps> = ({ onCopyContent }) => 
       {expandingSnippet && (
         <div className="cv-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="expander-title">
           <div className="cv-modal-card cv-expander-modal">
-            <h3 id="expander-title">Expand Template: {expandingSnippet.title}</h3>
-            <p className="cv-modal-subtitle">
-              Fill in the user variables below. Built-ins like date and time resolve automatically.
-            </p>
-
-            <div className="cv-expander-form">
-              {Object.keys(templateValues).length === 0 ? (
-                <p className="cv-text-muted">All placeholders in this template are resolved automatically.</p>
-              ) : (
-                Object.keys(templateValues).map((key) => (
-                  <div key={key} className="cv-form-group">
-                    <label htmlFor={`var-${key}`}>{key}</label>
-                    <input
-                      id={`var-${key}`}
-                      type="text"
-                      className="cv-input"
-                      placeholder={`Enter value for ${key}`}
-                      value={templateValues[key] || ""}
-                      onChange={(e) =>
-                        setTemplateValues((prev) => ({ ...prev, [key]: e.target.value }))
-                      }
-                    />
-                  </div>
-                ))
-              )}
-
-              <div className="cv-expander-preview">
-                <label className="cv-label-bold">Live Preview:</label>
-                <pre className="cv-preview-box">
-                  <code>{expandTemplate(expandingSnippet.content, templateValues)}</code>
-                </pre>
+            <div className="cv-modal-header">
+              <div className="cv-modal-title-group">
+                <span aria-hidden="true">✨</span>
+                <h3 id="expander-title" className="cv-modal-title">
+                  Expand Template: {expandingSnippet.title}
+                </h3>
               </div>
+              <button
+                type="button"
+                className="cv-btn-icon cv-modal-close-btn"
+                onClick={() => setExpandingSnippet(null)}
+                aria-label="Dismiss expander modal"
+              >
+                ✕
+              </button>
+            </div>
 
-              <div className="cv-modal-btn-row">
-                <button
-                  type="button"
-                  className="cv-btn cv-btn-primary"
-                  onClick={handleExpandAndCopy}
-                >
-                  📋 Copy Expanded Content
-                </button>
-                <button
-                  type="button"
-                  className="cv-btn cv-btn-secondary"
-                  onClick={() => setExpandingSnippet(null)}
-                >
-                  Close
-                </button>
+            <div className="cv-modal-body">
+              <p className="cv-modal-subtitle">
+                Fill in the user variables below. Built-ins like date and time resolve automatically.
+              </p>
+
+              <div className="cv-expander-form">
+                {Object.keys(templateValues).length === 0 ? (
+                  <p className="cv-text-muted">All placeholders in this template are resolved automatically.</p>
+                ) : (
+                  Object.keys(templateValues).map((key) => (
+                    <div key={key} className="cv-form-group">
+                      <label htmlFor={`var-${key}`}>{key}</label>
+                      <input
+                        id={`var-${key}`}
+                        type="text"
+                        className="cv-input"
+                        placeholder={`Enter value for ${key}`}
+                        value={templateValues[key] || ""}
+                        onChange={(e) =>
+                          setTemplateValues((prev) => ({ ...prev, [key]: e.target.value }))
+                        }
+                      />
+                    </div>
+                  ))
+                )}
+
+                <div className="cv-expander-preview">
+                  <label className="cv-label-bold">Live Preview:</label>
+                  <pre className="cv-preview-box">
+                    <code>{expandTemplate(expandingSnippet.content, templateValues)}</code>
+                  </pre>
+                </div>
               </div>
+            </div>
+
+            <div className="cv-modal-footer">
+              <button
+                type="button"
+                className="cv-btn cv-btn-secondary"
+                onClick={() => setExpandingSnippet(null)}
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                className="cv-btn cv-btn-primary"
+                onClick={handleExpandAndCopy}
+              >
+                📋 Copy Expanded Content
+              </button>
             </div>
           </div>
         </div>

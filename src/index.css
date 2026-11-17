@@ -1743,32 +1743,34 @@ kbd {
 /* Modals */
 .cv-snippet-modal,
 .cv-expander-modal {
-  max-width: 540px;
-  width: 90%;
+  max-width: 580px;
+  width: 92%;
+  box-shadow: var(--cv-shadow-xl, 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3));
 }
 
 .cv-form {
   display: flex;
   flex-direction: column;
-  gap: var(--cv-space-3);
-  margin-top: var(--cv-space-2);
+  gap: var(--cv-space-4, 16px);
+  margin-top: 0;
 }
 
 .cv-form-group {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .cv-form-group label {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
-  color: var(--cv-text-secondary);
+  color: var(--cv-text-primary);
+  letter-spacing: -0.01em;
 }
 
 .cv-form-row {
   display: flex;
-  gap: var(--cv-space-3);
+  gap: var(--cv-space-4, 16px);
 }
 
 .cv-form-col {
@@ -1776,26 +1778,38 @@ kbd {
 }
 
 .cv-form-help {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--cv-text-muted);
+  line-height: 1.4;
+  margin-top: 2px;
 }
 
 .cv-code-font {
   font-family: var(--cv-font-mono);
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 .cv-form-checkbox-row {
   display: flex;
   align-items: center;
   gap: var(--cv-space-2);
+  padding: var(--cv-space-2) 0;
 }
 
 .cv-checkbox-label {
   display: flex;
   align-items: center;
-  gap: var(--cv-space-2);
+  gap: var(--cv-space-2, 8px);
   font-size: 13px;
+  color: var(--cv-text-secondary);
   cursor: pointer;
+  user-select: none;
+}
+
+.cv-checkbox-label input[type="checkbox"] {
+  cursor: pointer;
+  accent-color: var(--cv-accent-primary, #6366f1);
 }
 
 .cv-modal-btn-row {

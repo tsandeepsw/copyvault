@@ -13,6 +13,7 @@ pub struct ArboardClipboardBackend {
     clipboard: Mutex<Option<arboard::Clipboard>>,
     last_known_change_count: AtomicI64,
     last_content_hash: Mutex<Option<[u8; 32]>>,
+    cached_payload: Mutex<Option<RawClipboardPayload>>,
 }
 
 impl ArboardClipboardBackend {
@@ -22,6 +23,7 @@ impl ArboardClipboardBackend {
             clipboard: Mutex::new(cb),
             last_known_change_count: AtomicI64::new(1),
             last_content_hash: Mutex::new(None),
+            cached_payload: Mutex::new(None),
         }
     }
 
@@ -30,24 +32,8 @@ impl ArboardClipboardBackend {
         hasher.update(bytes);
         hasher.finalize().into()
     }
-}
 
-impl Default for ArboardClipboardBackend {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
-impl ClipboardBackend for ArboardClipboardBackend {
-    fn get_change_count(&self) -> Result<i64, ClipboardError> {
-        Ok(self.last_known_change_count.load(Ordering::SeqCst))
-    }
-
-    fn is_concealed(&self) -> Result<bool, ClipboardError> {
-        Ok(false)
-    }
-
-    fn read_current_payload(&self) -> Result<Option<RawClipboardPayload>, ClipboardError> {
+    fn fetch_latest_payload(&self) -> Result<Option<RawClipboardPayload>, ClipboardError> {
         let mut guard = self.clipboard.lock().map_err(|_| {
             ClipboardError::Platform("Failed to acquire clipboard mutex lock".into())
         })?;
@@ -142,6 +128,51 @@ impl ClipboardBackend for ArboardClipboardBackend {
 
         Ok(None)
     }
+}
+
+impl Default for ArboardClipboardBackend {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl ClipboardBackend for ArboardClipboardBackend {
+    fn get_change_count(&self) -> Result<i64, ClipboardError> {
+        #[cfg(target_os = "windows")]
+        {
+            // On Windows, GetClipboardSequenceNumber() increments instantaneously on EVERY system copy action!
+            let seq = unsafe { windows_sys::Win32::System::DataExchange::GetClipboardSequenceNumber() };
+            if seq != 0 {
+                return Ok(seq as i64);
+            }
+        }
+
+        // On Linux / X11 / Wayland, polling fetch checks if content has changed
+        if let Ok(Some(payload)) = self.fetch_latest_payload() {
+            let count = payload.change_count;
+            if let Ok(mut cache) = self.cached_payload.lock() {
+                *cache = Some(payload);
+            }
+            return Ok(count);
+        }
+
+        Ok(self.last_known_change_count.load(Ordering::SeqCst))
+    }
+
+    fn is_concealed(&self) -> Result<bool, ClipboardError> {
+        Ok(false)
+    }
+
+    fn read_current_payload(&self) -> Result<Option<RawClipboardPayload>, ClipboardError> {
+        // If a payload was already fetched during change detection (e.g. on Linux), return it
+        if let Ok(mut cache) = self.cached_payload.lock() {
+            if let Some(payload) = cache.take() {
+                return Ok(Some(payload));
+            }
+        }
+
+        self.fetch_latest_payload()
+    }
 
     fn write_text(&self, text: &str) -> Result<i64, ClipboardError> {
         let mut guard = self.clipboard.lock().map_err(|_| {
@@ -168,6 +199,14 @@ impl ClipboardBackend for ArboardClipboardBackend {
         let hash = Self::compute_hash(text.as_bytes());
         let mut hash_guard = self.last_content_hash.lock().unwrap();
         *hash_guard = Some(hash);
+
+        #[cfg(target_os = "windows")]
+        {
+            let seq = unsafe { windows_sys::Win32::System::DataExchange::GetClipboardSequenceNumber() };
+            if seq != 0 {
+                return Ok(seq as i64);
+            }
+        }
 
         let count = self.last_known_change_count.fetch_add(1, Ordering::SeqCst) + 1;
         Ok(count)
@@ -211,6 +250,14 @@ impl ClipboardBackend for ArboardClipboardBackend {
         let hash = Self::compute_hash(bytes);
         let mut hash_guard = self.last_content_hash.lock().unwrap();
         *hash_guard = Some(hash);
+
+        #[cfg(target_os = "windows")]
+        {
+            let seq = unsafe { windows_sys::Win32::System::DataExchange::GetClipboardSequenceNumber() };
+            if seq != 0 {
+                return Ok(seq as i64);
+            }
+        }
 
         let count = self.last_known_change_count.fetch_add(1, Ordering::SeqCst) + 1;
         Ok(count)

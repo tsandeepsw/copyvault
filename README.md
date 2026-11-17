@@ -264,3 +264,10 @@ CopyVault operates strictly within user-scoped application directories:
 ## 🛡️ Zero-Telemetry Privacy Commitment
 
 CopyVault does not include Google Analytics, Sentry, Mixpanel, Segment, or any remote error-tracking services. All search queries, clipboard clippings, image caches, and application configurations are stored exclusively on your local machine and never transmitted over any network interface.
+
+---
+
+## License
+
+MIT
+

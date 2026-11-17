@@ -58,6 +58,22 @@
         images with sub-15ms search and zero cloud tracking. Your clipboard stays strictly on your machine.
       </p>
 
+      <div class="hero-actions">
+        <a href="#downloads" class="btn btn-primary">
+          <span>Download CopyVault</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+        </a>
+        <a href="https://github.com/tsandeepsw/copyvault" class="btn btn-secondary" target="_blank"
+          rel="noopener noreferrer">
+          <span>View Source Code</span>
+        </a>
+      </div>
+
       <!-- App Preview Graphic -->
       <div class="hero-preview-container">
         <div class="hero-preview-window">
@@ -194,7 +210,7 @@
             <div class="download-icon-box">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
                 <path
-                  d="M12.001 2c-3.15 0-5.71 2.56-5.71 5.71 0 1.27.42 2.45 1.13 3.4-.64 1.27-1.13 2.79-1.13 4.49 0 3.53 2.55 6.4 5.71 6.4s5.71-2.87 5.71-6.4c0-1.7-.49-3.22-1.13-4.49.71-.95 1.13-2.13 1.13-3.4 0-3.15-2.56-5.71-5.71-5.71z" />
+                  d="M12 2a4 4 0 0 0-4 4v5.5a2.5 2.5 0 0 0-1.5 2.3c0 2.2 2 3.2 2 5.2 0 1.7-1 2-1 2h9s-1-.3-1-2c0-2 2-3 2-5.2a2.5 2.5 0 0 0-1.5-2.3V6a4 4 0 0 0-4-4zm-2 4a2 2 0 1 1 4 0v5h-4V6z" />
               </svg>
             </div>
             <div>
@@ -250,27 +266,35 @@
             <div class="step-item">
               <div class="step-number">1</div>
               <div class="step-body">
-                <h4>Step 1</h4>
-                <p>After opening Copyvault , Windows may show a screen similar to the image below. Click <strong>More
-                    info</strong>.</p>
+                <h4>Click More info</h4>
+                <p>After opening CopyVault, Windows Defender SmartScreen may display a blue dialog stating <em>"Windows
+                    protected your PC"</em>. Click <strong>More info</strong> under the description.</p>
+                <div class="step-img-wrapper">
+                  <img src="step1.jpeg" alt="Windows SmartScreen Step 1 - Click More info" class="step-screenshot"
+                    loading="lazy" />
+                </div>
               </div>
             </div>
 
             <div class="step-item">
               <div class="step-number">2</div>
               <div class="step-body">
-                <h4>Step 2</h4>
-                <p>After clicking <strong>More info</strong>, Windows will reveal the <strong>Run anyway</strong>
-                  button.</p>
+                <h4>Click Run anyway</h4>
+                <p>After clicking <em>More info</em>, Windows will display the application details along with a newly
+                  revealed <strong>Run anyway</strong> button. Click <strong>Run anyway</strong>.</p>
+                <div class="step-img-wrapper">
+                  <img src="step2.jpeg" alt="Windows SmartScreen Step 2 - Click Run anyway" class="step-screenshot"
+                    loading="lazy" />
+                </div>
               </div>
             </div>
 
             <div class="step-item">
               <div class="step-number">3</div>
               <div class="step-body">
-                <h4>Step 3</h4>
-                <p>Click <strong>Run anyway</strong> to start Copyvault . Future Windows security prompts may become
-                  less frequent as the application builds reputation.</p>
+                <h4>Enjoy CopyVault</h4>
+                <p>CopyVault will start immediately. Future security prompts will disappear as the application builds
+                  trust and reputation on your system.</p>
               </div>
             </div>
           </div>
@@ -288,7 +312,7 @@
             <div class="step-item">
               <div class="step-number">1</div>
               <div class="step-body">
-                <h4>Step 1 - Open the DMG File</h4>
+                <h4>Open the DMG File</h4>
                 <p>Download the Copyvault DMG file and double-click it. A window will appear showing the Copyvault
                   application icon and the Applications folder shortcut.</p>
               </div>
@@ -297,7 +321,7 @@
             <div class="step-item">
               <div class="step-number">2</div>
               <div class="step-body">
-                <h4>Step 2 - Move Copyvault to Applications</h4>
+                <h4>Move Copyvault to Applications</h4>
                 <p>Drag the Copyvault icon into the Applications folder. Wait for the copy process to finish completely.
                 </p>
               </div>
@@ -306,7 +330,7 @@
             <div class="step-item">
               <div class="step-number">3</div>
               <div class="step-body">
-                <h4>Step 3 - Open Terminal</h4>
+                <h4>Open Terminal</h4>
                 <p>Open the Terminal application on your Mac.</p>
                 <p>You can find Terminal by:</p>
                 <ul class="step-sublist">
@@ -320,20 +344,20 @@
             <div class="step-item">
               <div class="step-number">4</div>
               <div class="step-body">
-                <h4>Step 4 - Remove the macOS Quarantine Attribute</h4>
-                <p>Copy and run the following command exactly as shown:</p>
+                <h4>Remove Quarantine Attribute</h4>
+                <p>Copy and run the following command in Terminal, then press Enter:</p>
                 <div class="code-snippet-box">
                   <code>xattr -dr com.apple.quarantine /Applications/Copyvault.app</code>
                 </div>
-                <small class="step-subtext">This removes the quarantine flag that macOS applies to some applications
-                  downloaded from the internet.</small>
+                <small class="step-subtext">This removes the quarantine flag that macOS applies to applications
+                  downloaded outside the Mac App Store.</small>
               </div>
             </div>
 
             <div class="step-item">
               <div class="step-number">5</div>
               <div class="step-body">
-                <h4>Step 5 - Launch Copyvault</h4>
+                <h4>Launch Copyvault</h4>
                 <p>Open the Applications folder and launch Copyvault.</p>
                 <p>The application should now start normally.</p>
               </div>

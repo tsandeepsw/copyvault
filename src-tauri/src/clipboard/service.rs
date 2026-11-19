@@ -257,10 +257,27 @@ impl ClipboardService {
                 let relative_path = self.media.store_media(&content_hash, ext, &bytes)?;
 
                 // Cache thumbnail directly in SQLite so the UI gets instantaneous preview
-                let thumbnail_blob = if bytes.len() <= 1024 * 1024 {
+                let thumbnail_blob = if let Ok(img) = image::load_from_memory(&bytes) {
+                    let thumb = img.thumbnail(320, 240);
+                    let mut thumb_bytes = Vec::new();
+                    let encoder = image::codecs::png::PngEncoder::new(&mut thumb_bytes);
+                    if image::ImageEncoder::write_image(
+                        encoder,
+                        thumb.to_rgba8().as_raw(),
+                        thumb.width(),
+                        thumb.height(),
+                        image::ExtendedColorType::Rgba8,
+                    ).is_ok() {
+                        Some(thumb_bytes)
+                    } else if bytes.len() <= 512 * 1024 {
+                        Some(bytes.clone())
+                    } else {
+                        None
+                    }
+                } else if bytes.len() <= 512 * 1024 {
                     Some(bytes.clone())
                 } else {
-                    Some(bytes[..512 * 1024].to_vec())
+                    None
                 };
 
                 let item = NewClipboardItem::new_image(NewImageParams {

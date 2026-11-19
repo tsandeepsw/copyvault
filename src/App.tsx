@@ -423,9 +423,46 @@ export function App() {
       }
     };
 
+    const handleWindowFocus = async () => {
+      if (document.visibilityState !== "visible") return;
+      if (typeof navigator === "undefined" || !navigator.clipboard?.readText) return;
+      try {
+        const text = await navigator.clipboard.readText();
+        if (text && text.trim() && !isInternalCopy(text)) {
+          setItems((prev) => {
+            if (prev.length > 0 && prev[0].content === text) {
+              return prev;
+            }
+            const isUrl = text.startsWith("http://") || text.startsWith("https://");
+            const isCode = !isUrl && (text.includes("function") || text.includes("=>") || text.includes("{") || text.includes("class ") || text.includes("const "));
+            const newItem: ClipboardItem = {
+              id: `browser_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+              contentType: isUrl ? "link" : isCode ? "code" : "text",
+              content: text,
+              previewText: text.slice(0, 150),
+              capturedAt: Date.now(),
+              pinned: false,
+              copyCount: 1,
+              charCount: text.length,
+              lineCount: text.split("\n").length,
+              sourceApp: "Clipboard Sync",
+            };
+            const filtered = prev.filter((i) => i.content !== newItem.content);
+            return [newItem, ...filtered];
+          });
+        }
+      } catch {
+        // Permission not granted yet or clipboard empty
+      }
+    };
+
     window.addEventListener("paste", handleWindowPaste);
+    window.addEventListener("focus", handleWindowFocus);
+    document.addEventListener("visibilitychange", handleWindowFocus);
     return () => {
       window.removeEventListener("paste", handleWindowPaste);
+      window.removeEventListener("focus", handleWindowFocus);
+      document.removeEventListener("visibilitychange", handleWindowFocus);
     };
   }, [isInternalCopy]);
 
